@@ -10,7 +10,7 @@ from django.db.models.fields import CharField
 from django.forms.widgets import Input
 from django.template.loader import render_to_string
 from django.templatetags.static import static
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
 from six import string_types
 
@@ -283,7 +283,7 @@ class FileBrowseUploadField(CharField):
 
 try:
     from south.modelsinspector import add_introspection_rules
-    add_introspection_rules([], ["^filebrowser\.fields\.FileBrowseField"])
-    add_introspection_rules([], ["^filebrowser\.fields\.FileBrowseUploadField"])
+    add_introspection_rules([], [r"^filebrowser\.fields\.FileBrowseField"])
+    add_introspection_rules([], [r"^filebrowser\.fields\.FileBrowseUploadField"])
 except:
     pass

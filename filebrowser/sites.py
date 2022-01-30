@@ -21,8 +21,8 @@ from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import render, HttpResponse
 from django.template import RequestContext as Context
 from django.template.response import TemplateResponse
-from django.utils.encoding import smart_text
-from django.utils.translation import ugettext as _
+from django.utils.encoding import smart_str
+from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.views.decorators.csrf import csrf_exempt
@@ -204,18 +204,18 @@ class FileBrowserSite(object):
 
     def get_urls(self):
         "URLs for a filebrowser.site"
-        from django.conf.urls import url
+        from django.urls import re_path
 
         # filebrowser urls (views)
         urlpatterns = [
-            url(r'^browse/$', path_exists(self, filebrowser_view(self.browse)), name="fb_browse"),
-            url(r'^createdir/', path_exists(self, filebrowser_view(self.createdir)), name="fb_createdir"),
-            url(r'^upload/', path_exists(self, filebrowser_view(self.upload)), name="fb_upload"),
-            url(r'^delete_confirm/$', file_exists(self, path_exists(self, filebrowser_view(self.delete_confirm))), name="fb_delete_confirm"),
-            url(r'^delete/$', file_exists(self, path_exists(self, filebrowser_view(self.delete))), name="fb_delete"),
-            url(r'^detail/$', file_exists(self, path_exists(self, filebrowser_view(self.detail))), name="fb_detail"),
-            url(r'^version/$', file_exists(self, path_exists(self, filebrowser_view(self.version))), name="fb_version"),
-            url(r'^upload_file/$', staff_member_required(csrf_exempt(self._upload_file)), name="fb_do_upload"),
+            re_path(r'^browse/$', path_exists(self, filebrowser_view(self.browse)), name="fb_browse"),
+            re_path(r'^createdir/', path_exists(self, filebrowser_view(self.createdir)), name="fb_createdir"),
+            re_path(r'^upload/', path_exists(self, filebrowser_view(self.upload)), name="fb_upload"),
+            re_path(r'^delete_confirm/$', file_exists(self, path_exists(self, filebrowser_view(self.delete_confirm))), name="fb_delete_confirm"),
+            re_path(r'^delete/$', file_exists(self, path_exists(self, filebrowser_view(self.delete))), name="fb_delete"),
+            re_path(r'^detail/$', file_exists(self, path_exists(self, filebrowser_view(self.detail))), name="fb_detail"),
+            re_path(r'^version/$', file_exists(self, path_exists(self, filebrowser_view(self.version))), name="fb_version"),
+            re_path(r'^upload_file/$', staff_member_required(csrf_exempt(self._upload_file)), name="fb_do_upload"),
         ]
         return urlpatterns
 
@@ -601,20 +601,20 @@ class FileBrowserSite(object):
             uploadedfile = handle_file_upload(path, filedata, site=self)
 
             if file_already_exists and OVERWRITE_EXISTING:
-                old_file = smart_text(file_path)
-                new_file = smart_text(uploadedfile)
+                old_file = smart_str(file_path)
+                new_file = smart_str(uploadedfile)
                 self.storage.move(new_file, old_file, allow_overwrite=True)
-                full_path = FileObject(smart_text(old_file), site=self).path_full
+                full_path = FileObject(smart_str(old_file), site=self).path_full
             else:
-                file_name = smart_text(uploadedfile)
+                file_name = smart_str(uploadedfile)
                 filedata.name = os.path.relpath(file_name, path)
-                full_path = FileObject(smart_text(file_name), site=self).path_full
+                full_path = FileObject(smart_str(file_name), site=self).path_full
 
             # set permissions
             if DEFAULT_PERMISSIONS is not None:
                 os.chmod(full_path, DEFAULT_PERMISSIONS)
 
-            f = FileObject(smart_text(file_name), site=self)
+            f = FileObject(smart_str(file_name), site=self)
             signals.filebrowser_post_upload.send(sender=request, path=folder, file=f, site=self)
 
             # let Ajax Upload know whether we saved it or not
