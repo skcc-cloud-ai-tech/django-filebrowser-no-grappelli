@@ -353,7 +353,6 @@ class FileBrowserSite(object):
                 'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
                 'breadcrumbs_title': "",
                 'filebrowser_site': self,
-                'old_design': DJANGO_VERSION < (1, 9)
             }
         ))
 

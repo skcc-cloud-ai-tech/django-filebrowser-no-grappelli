@@ -220,13 +220,3 @@ span.qq-upload-file {
 .popup.filebrowser.change-list .filtered #toolbar {
     margin-right: 260px;
 }
-
-/* Django 1.8 */
-.popup.filebrowser .old-design .object-tools {
-    margin-top: -20px;
-}
-
-.old-design .pulldown-versions-handler:after {
-    border-top-color: #000;
-    border-bottom-color: #000;
-}

@@ -1,17 +1,8 @@
 #!/bin/bash
 
-DJANGO_VERSIONS=("1.11" "2.0" "2.1" "2.2" "3.0")
+DJANGO_VERSIONS=("2.0" "3.0" "4.0")
 VIRTUALENV_DIR="envs"
 BASEDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-
-python_version() {
-    django_major=${1%%\.*}
-    if [[ $django_major -ge 2 ]]; then
-        echo "python3"
-    else
-        echo "python2"
-    fi
-}
 
 mkdir -p $VIRTUALENV_DIR
 
@@ -23,7 +14,7 @@ do
 
     echo "install last django"
     if [ ! -d "$VIRTUALENV_DIR/$version" ]; then
-        virtualenv --system-site-packages --python=$(python_version $version) "$VIRTUALENV_DIR/$version"
+        virtualenv --system-site-packages --python=python3 "$VIRTUALENV_DIR/$version"
     fi
     source "$VIRTUALENV_DIR/$version/bin/activate"
     pip install "django~=$version.0"
