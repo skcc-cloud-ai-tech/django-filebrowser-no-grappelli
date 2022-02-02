@@ -23,9 +23,9 @@ The FileBrowser is an extension to the `Django <http://www.djangoproject.com>`_ 
 Requirements
 ------------
 
-FileBrowser 3.8 requires
+FileBrowser 4.0 requires
 
-* Django 1.11/2.2/3.0 (http://www.djangoproject.com)
+* Django 2/3/4 (http://www.djangoproject.com)
 * Pillow (https://github.com/python-imaging/Pillow)
 
 No Grappelli
@@ -63,6 +63,7 @@ https://www.transifex.com/projects/p/django-filebrowser/
 Releases
 --------
 
+* FileBrowser 4.0.0 (February 2nd, 2022): Compatible with Django 3/4
 * FileBrowser 3.8.0 (November 4th, 2019): Compatible with Django 1.11/2.0/2.1/2.2/3.0
 * FileBrowser 3.7.9 (November 3rd, 2019): Compatible with Django 1.8/1.9/1.10/1.11/2.0/2.1/2.2
 * FileBrowser 3.6.2 (March 7th, 2016): Compatible with Django 1.4/1.5/1.6/1.7/1.8/1.9
