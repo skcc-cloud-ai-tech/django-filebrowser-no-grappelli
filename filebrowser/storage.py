@@ -131,3 +131,46 @@ class S3BotoStorageMixin(StorageMixin):
         # is set in settings.py with AWS_DEFAULT_ACL.
         # More info: http://django-common-configs.readthedocs.org/en/latest/configs/storage.html
         pass
+
+
+class DropBoxStorageMixin(StorageMixin):
+
+    def isdir(self, name):
+        # NOTE: We are importing inside the function to not to require
+        # the dropbox library if DropBoxStorageMixin is not used
+        # This could changed if storage module is broken down
+        # into one module for each storage Mixin?
+        from dropbox.exceptions import ApiError
+        from dropbox.files import FileMetadata, FolderMetadata
+        try:
+            metadata = self.client.files_get_metadata(self._full_path(name))
+            return isinstance(metadata, FolderMetadata)
+        except ApiError:
+            return False
+
+    def isfile(self, name):
+        from dropbox.exceptions import ApiError
+        from dropbox.files import FileMetadata, FolderMetadata
+        try:
+            metadata = self.client.files_get_metadata(self._full_path(name))
+            return isinstance(metadata, FileMetadata)
+        except ApiError:
+            return False
+
+    def move(self, old_file_name, new_file_name, allow_overwrite=False):
+        if self.exists(new_file_name):
+            if allow_overwrite:
+                self.delete(new_file_name)
+            else:
+                raise "The destination file '%s' exists and allow_overwrite is False" % new_file_name
+
+        self.client.files_move(old_file_name, new_file_name)
+
+    def makedirs(self, name):
+        self.client.files_create_folder(self._full_path(name))
+
+    def rmtree(self, name):
+        self.client.files_delete(self._full_path(name))
+
+    def setpermission(self, name):
+        pass
