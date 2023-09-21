@@ -98,7 +98,7 @@
 {% endblock %}
 
 <!-- COLTYPE/BODYCLASS -->
-{% block bodyclass %}change-list filebrowser {% if query.pop %} popup{% endif %}{% endblock %}
+{% block bodyclass %}{{ block.super }} change-list filebrowser {% if query.pop %} popup{% endif %}{% endblock %}
 {% block coltype %}flex{% endblock %}
 
 <!-- BREADCRUMBS -->
