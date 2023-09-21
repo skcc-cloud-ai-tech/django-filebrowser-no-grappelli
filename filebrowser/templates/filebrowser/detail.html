@@ -27,7 +27,7 @@
 {% endblock %}
 
 <!-- COLTYPE/BODYCLASS -->
-{% block bodyclass %}change-form filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+{% block bodyclass %}{{ block.super }} change-form filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
 {% block coltype %}colM{% endblock %}
 
 <!-- BREADCRBUMBS -->
